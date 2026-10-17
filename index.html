@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuTarot by Mai Collection</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS Link -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-gray-800">
+
+    <!-- HEADER GLOBAL -->
+    <header class="fixed top-0 w-full z-40 bg-white/80 backdrop-blur-md border-b border-pink-50 transition-all">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <button onclick="toggleMenu()" class="p-2 -ml-2 text-gray-600 hover:text-pink-500 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+            <div class="flex flex-col items-center cursor-pointer transform transition-transform hover:scale-105" onclick="navigate('home')">
+                <h1 class="font-cute font-bold text-xl tracking-wide leading-none text-purple-700">CuTarot</h1>
+                <span class="font-['Caveat'] text-xs text-purple-400 tracking-wider">by Mai Collection</span>
+            </div>
+            <div class="w-9"></div>
+        </div>
+    </header>
+
+    <!-- DRAWER / MENU DASHBOARD -->
+<!-- DRAWER / MENU DASHBOARD -->
+<div id="drawer-overlay"
+     class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"
+     onclick="toggleMenu()"></div>
+
+<div id="drawer-menu"
+     class="fixed inset-y-0 left-0 bg-white/95 backdrop-blur-md w-72 max-w-[85vw] z-50
+            transform -translate-x-full transition-transform duration-500
+            ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col shadow-2xl border-r border-pink-100 font-cute">
+
+    <!-- ✅ Header drawer (opsional, biar ada brand) -->
+    <div class="px-5 pt-5 pb-4 border-b border-pink-100/70 flex items-center justify-between">
+        <div class="flex flex-col">
+            <h2 class="font-cute font-bold text-lg text-purple-700 leading-none">CuTarot</h2>
+            <span class="font-['Caveat'] text-[11px] text-purple-400 tracking-wider">by Mai Collection</span>
+        </div>
+        <button onclick="toggleMenu()"
+                aria-label="Close menu"
+                class="p-2 rounded-xl hover:bg-pink-50 text-pink-400 hover:text-pink-600 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- ✅ Nav: di-generate oleh updateDrawerMenu() di JS -->
+    <!-- JANGAN isi manual di sini — biar JS yang handle icon Lucide + urutan -->
+</div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="pt-16 min-h-screen flex flex-col">
+        
+        <!-- VIEW: HOME -->
+        <section id="view-home" class="view-section active flex-1 pb-16">
+            <div class="animate-fade-in-up text-center pt-12 pb-12 px-4">
+                <h1 class="font-cute font-bold text-4xl md:text-5xl text-purple-800 tracking-tight mb-1">CuTarot</h1>
+                <p class="font-['Caveat'] text-base text-purple-500 tracking-wide mb-6">by Mai Collection</p>
+                <p class="text-gray-500 text-xs md:text-sm max-w-xs mx-auto font-cute">“Pause, draw, and let the cards tell the story.”</p>
+            </div>
+
+            <div class="animate-fade-in-up max-w-xs mx-auto px-4 space-y-3 mb-20">
+                <button onclick="navigate('draw')" class="w-full bg-pink-100/80 hover:bg-pink-200 text-purple-700 py-3 rounded-xl font-cute font-bold text-sm shadow-sm transition-transform transform hover:-translate-y-0.5">Start Reading</button>
+                <button id="btn-daily-card" onclick="toggleDailyCard()" class="w-full bg-white border border-pink-200 hover:border-pink-300 text-purple-700 py-3 rounded-xl font-cute font-bold text-sm shadow-sm transition-transform transform hover:-translate-y-0.5">Today's Card</button>
+                
+                <div id="inline-daily-card" class="hidden mt-6 animate-fade-in-up bg-pink-50/50 p-6 rounded-3xl border border-pink-100 flex-col items-center text-center"></div>
+            </div>
+
+            <div class="max-w-5xl mx-auto px-4 mb-24 scroll-mt-20">
+                <div class="text-center mb-10"><h2 class="font-cute font-bold text-xl uppercase tracking-wider text-pink-500">EXPLORE ALL CARDS</h2><div class="w-12 h-px bg-pink-200 mx-auto mt-4"></div></div>
+                <div onclick="navigate('all-cards')" class="bg-pink-50/50 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-center justify-between border border-pink-100 hover:border-pink-300 transition-colors cursor-pointer transform hover:-translate-y-1">
+                    <div class="mb-4 md:mb-0 text-center md:text-left">
+                        <h3 class="font-cute font-bold text-base text-purple-800 mb-1">The Tarot Library</h3>
+                        <p class="font-cute text-xs text-gray-500 max-w-md">Jelajahi makna mendalam dari 78 kartu Tarot dan interpretasinya.</p>
+                    </div>
+                    <button class="bg-white px-4 py-2 rounded-full text-pink-500 font-cute font-bold text-xs border border-pink-200 shadow-sm whitespace-nowrap">View Library</button>
+                </div>
+            </div>
+
+            <div id="section-spreads" class="max-w-5xl mx-auto px-4 mb-24 scroll-mt-20">
+                <div class="text-center mb-10"><h2 class="font-cute font-bold text-xl uppercase tracking-wider text-pink-500">EXPLORE TAROT SPREADS</h2><div class="w-12 h-px bg-pink-200 mx-auto mt-4"></div></div>
+                <div id="home-spreads-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+            </div>
+
+            <div id="section-zodiac" class="max-w-5xl mx-auto px-4 mb-24 scroll-mt-20">
+                <div class="text-center mb-10"><h2 class="font-cute font-bold text-xl uppercase tracking-wider text-pink-500">ZODIAC SIGNS</h2><div class="w-12 h-px bg-pink-200 mx-auto mt-4"></div></div>
+                <div id="home-zodiac-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+            </div>
+
+            <div id="section-about" class="max-w-xl mx-auto px-4 mb-10 scroll-mt-20">
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <div onclick="navigate('generic', 'About Tarot')" class="flex-1 p-3 rounded-[1.5rem] bg-pink-200 hover:bg-pink-300 cursor-pointer text-center transition-colors shadow-sm">
+                        <h3 class="font-cute font-bold text-sm text-gray-700 mb-0.5">About Tarot</h3>
+                        <p class="font-cute text-[11px] text-gray-600 leading-snug">History, structure, and reading practices.</p>
+                    </div>
+                    <div onclick="navigate('generic', 'Personal Reading')" class="flex-1 p-3 rounded-[1.5rem] bg-pink-200 hover:bg-pink-300 cursor-pointer text-center transition-colors shadow-sm">
+                        <h3 class="font-cute font-bold text-sm text-gray-700 mb-0.5">About Us</h3>
+                        <p class="font-cute text-[11px] text-gray-600 leading-snug">Meet the creator behind CuTarot.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: DRAW SYSTEM -->
+        <section id="view-draw" class="view-section flex-1 pt-8 pb-16 px-4 max-w-5xl mx-auto w-full">
+            <div id="phase-spread" class="animate-fade-in-up w-full">
+                <button onclick="navigate('home')" class="text-sm text-gray-400 mb-8 hover:text-pink-500 transition-colors">← Back to Home</button>
+                <h2 class="font-cute font-bold text-2xl text-center mb-10 text-purple-800">Choose a Spread</h2>
+                <div id="draw-spreads-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+            </div>
+
+            <div id="phase-config" class="hidden animate-fade-in-up max-w-xl mx-auto w-full">
+                <button onclick="setDrawPhase('spread')" class="text-sm text-gray-400 mb-8 hover:text-pink-500 transition-colors">← Back</button>
+                <div class="text-center mb-8"><h2 id="config-spread-name" class="font-cute font-bold text-3xl mb-2 text-purple-800"></h2></div>
+                <div class="bg-pink-50/30 p-6 sm:p-8 rounded-3xl border border-pink-100">
+                    <label class="block text-sm font-cute font-bold text-gray-700 mb-6 text-center">Select Number of Cards</label>
+                    <div class="flex flex-wrap justify-center gap-2 sm:gap-3" id="config-numbers-grid"></div>
+                    <button onclick="startDraw()" class="w-full mt-10 bg-pink-100 hover:bg-pink-200 py-4 rounded-2xl font-cute font-bold text-lg transition-transform transform hover:-translate-y-1">Shuffle & Draw</button>
+                </div>
+            </div>
+
+            <div id="phase-draw" class="hidden animate-fade-in-up flex-col items-center w-full">
+                <div class="w-full relative">
+                    <button onclick="setDrawPhase('config')" class="absolute left-0 top-0 text-sm text-gray-400 hover:text-pink-500 transition-colors z-10">← Back</button>
+                    <div class="text-center mb-8">
+                        <h2 class="font-cute font-bold text-xl text-purple-800">Select Your Cards</h2>
+                        <p id="draw-counter" class="text-sm text-pink-400 mt-2 font-cute">0 / 0 selected</p>
+                    </div>
+                </div>
+                <div class="w-full relative py-12 px-4 overflow-x-auto deck-container hide-scrollbar select-none cursor-grab">
+                    <div id="deck-scroll-area" class="relative mx-auto h-[260px]"></div>
+                </div>
+                <div id="draw-slots" class="mt-8 w-full max-w-3xl flex justify-center gap-2 flex-wrap min-h-[100px] p-4 bg-pink-50/20 rounded-3xl border border-pink-50"></div>
+                <button id="btn-reveal" onclick="setDrawPhase('result')" class="hidden mt-8 bg-purple-700 text-white px-8 py-3 rounded-full font-cute font-bold shadow-lg animate-pulse">Reveal Cards</button>
+            </div>
+
+            <div id="phase-result" class="hidden animate-fade-in-up w-full">
+                <div class="flex justify-between items-center mb-10">
+                    <h2 class="font-cute font-bold text-2xl text-purple-800">Your Reading</h2>
+                    <button onclick="setDrawPhase('spread')" class="text-sm text-pink-500 hover:bg-pink-50 px-4 py-2 border border-pink-100 rounded-full transition-colors font-cute">Draw Again</button>
+                </div>
+                <div id="result-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 sm:gap-6 justify-items-center"></div>
+            </div>
+        </section>
+
+        <!-- VIEW: ALL CARDS LIBRARY -->
+        <section id="view-all-cards" class="view-section flex-1 pt-8 pb-24 px-4 max-w-5xl mx-auto w-full">
+            <button onclick="navigate('home')" class="text-sm text-gray-400 mb-8 hover:text-pink-500 transition-colors">← Back to Home</button>
+            <div class="animate-fade-in-up w-full">
+                <div class="text-center mb-10"><h2 class="font-cute font-bold text-3xl text-purple-800">Tarot Library</h2><div class="w-12 h-px bg-pink-200 mx-auto mt-4"></div></div>
+                <div class="flex flex-wrap justify-center gap-2 mb-10" id="card-filters">
+                    <button onclick="filterLibrary('All')" class="px-4 py-2 rounded-full border border-pink-200 text-sm font-cute font-bold transition-colors bg-pink-300 text-white shadow-sm">All</button>
+                    <button onclick="filterLibrary('Major Arcana')" class="px-4 py-2 rounded-full border border-pink-200 text-sm font-cute font-bold transition-colors bg-white hover:bg-pink-50 text-gray-600">Major</button>
+                    <button onclick="filterLibrary('Wands')" class="px-4 py-2 rounded-full border border-pink-200 text-sm font-cute font-bold transition-colors bg-white hover:bg-pink-50 text-gray-600">Wands</button>
+                    <button onclick="filterLibrary('Cups')" class="px-4 py-2 rounded-full border border-pink-200 text-sm font-cute font-bold transition-colors bg-white hover:bg-pink-50 text-gray-600">Cups</button>
+                    <button onclick="filterLibrary('Swords')" class="px-4 py-2 rounded-full border border-pink-200 text-sm font-cute font-bold transition-colors bg-white hover:bg-pink-50 text-gray-600">Swords</button>
+                    <button onclick="filterLibrary('Pentacles')" class="px-4 py-2 rounded-full border border-pink-200 text-sm font-cute font-bold transition-colors bg-white hover:bg-pink-50 text-gray-600">Pentacles</button>
+                </div>
+                <div id="library-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4"></div>
+            </div>
+        </section>
+
+        <!-- VIEW: CARD DETAIL -->
+        <section id="view-card-detail" class="view-section flex-1 pt-8 pb-24 px-4 max-w-4xl mx-auto w-full">
+            <button onclick="navigate('all-cards')" class="text-sm text-gray-400 mb-8 hover:text-pink-500 transition-colors">← Back to Library</button>
+            <div id="card-detail-content" class="animate-fade-in-up w-full"></div>
+        </section>
+
+        <!-- VIEW: ZODIAC DETAIL -->
+        <section id="view-zodiac" class="view-section flex-1 pt-12 pb-24 px-4 max-w-3xl mx-auto w-full">
+            <button onclick="navigate('home', 'section-zodiac')" class="text-sm text-gray-400 mb-8 hover:text-pink-500 transition-colors">← Back to Home</button>
+            <div id="zodiac-detail-content" class="animate-fade-in-up text-center w-full"></div>
+        </section>
+
+        <!-- VIEW: GENERIC TEXT PAGES -->
+        <section id="view-generic" class="view-section flex-1 pt-12 pb-24 px-4 max-w-3xl mx-auto w-full">
+            <div class="animate-fade-in-up w-full">
+                <button onclick="navigate('home', 'section-about')" class="text-sm text-gray-400 mb-8 hover:text-pink-500 transition-colors">← Back to Home</button>
+                <h1 id="generic-title" class="font-cute font-bold text-3xl text-purple-800 mb-8 border-b border-pink-50 pb-4 text-center"></h1>
+                <div id="generic-content" class="text-gray-600 font-cute leading-relaxed space-y-6"></div>
+            </div>
+        </section>
+
+        <!-- FOOTER GLOBAL -->
+        <footer class="bg-[#fff7fc] border-t border-pink-50 py-12 mt-auto">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="font-cute font-bold text-xl mb-1 text-purple-800">CuTarot</h2>
+                <p class="font-['Caveat'] text-xs text-purple-400 mb-6">by Mai Collection</p>
+                <div class="flex justify-center space-x-6 text-sm text-gray-500 font-cute">
+                    <button onclick="navigate('generic', 'Personal Reading')" class="hover:text-pink-500">About Us</button>
+                    <button onclick="navigate('generic', 'Buy Deck')" class="hover:text-pink-500">Shop Now</button>
+                    <button onclick="navigate('generic', 'Terms & Policy')" class="hover:text-pink-500">Terms & Policy</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Custom JavaScript Link -->
+    <script src="script.js"></script>
+</body>
+</html>
